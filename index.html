@@ -313,7 +313,7 @@ function bindTip(el, html){
 function hbar(rows, opts={}){          // rows: [{label, value, sub, color, max}]
   const max = opts.max ?? Math.max(...rows.map(r => Math.abs(r.value)), 1);
   return `<div class="hbars">${rows.map(r=>{
-    const w = Math.max(1, Math.abs(r.value)/max*100);
+    const w = Math.min(100, Math.max(1, Math.abs(r.value)/max*100));
     return `<div class="hbar-row" tabindex="0" data-tip="${esc(r.tip||`${r.label}: ${fmt(r.value)}`)}">
       <span class="hbar-lab">${esc(r.label)}</span>
       <span class="hbar-track"><span class="hbar-fill" style="width:${w}%;background:${r.color||'var(--series-1)'}"></span></span>
@@ -558,7 +558,7 @@ function tabBundles(){
       ${Math.round(N_PAIRS*0.05)} expected by chance.</p>
     <h4>The strongest co-occurrences</h4>
     ${hbar(pairs.map(p=>({label:`${shortName(p.a)}  +  ${shortName(p.b)}`, value:p.phi,
-      display:fmt(p.phi,2), tip:`${shortName(p.a)}\n+ ${shortName(p.b)}\nphi = ${fmt(p.phi,2)}, p = ${p.p<0.001?'<0.001':fmt(p.p,3)}`})),{max:0.6})}
+      display:fmt(p.phi,2), tip:`${shortName(p.a)}\n+ ${shortName(p.b)}\nphi = ${fmt(p.phi,2)}, p = ${p.p<0.001?'<0.001':fmt(p.p,3)}`})),{})}
     <p class="cap">Phi coefficient between binary constraint flags. All pairs shown are significant at p&lt;0.05
       against the permutation null.</p>
   </section>
